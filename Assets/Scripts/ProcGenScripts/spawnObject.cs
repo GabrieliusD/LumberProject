@@ -53,7 +53,7 @@ public class spawnObject : MonoBehaviour
                 {
                     float noisevalue = (noiseLite.GetNoise(hit.point.x/scale, hit.point.y/scale, hit.point.z/scale) + 1) * 0.5f;
                     if(noisevalue <= 0.7f)
-                    if(Vector3.Distance(hit.point, townHalls[0].transform.position) > spawnDistanceFromTownHall && Vector3.Distance(hit.point, townHalls[1].transform.position) > spawnDistanceFromTownHall)
+                    //if(Vector3.Distance(hit.point, townHalls[0].transform.position) > spawnDistanceFromTownHall && Vector3.Distance(hit.point, townHalls[1].transform.position) > spawnDistanceFromTownHall)
                     {
                         GameObject spawnObject = null;
                         float value = Random.Range(0, maxSample);

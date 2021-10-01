@@ -12,7 +12,7 @@ public class Maps : MonoBehaviour
     public NoiseSettings noiseSettings;
     [Range(0,6)]
     public int levelOfDetail;
-    int mapChunkSize = 241;
+    public int mapChunkSize = 241;
     public int seed = 1337;
     public bool autoUpdate;
     public MinMaxTracker heightTracker;
@@ -24,8 +24,6 @@ public class Maps : MonoBehaviour
         //if(WorldSettings.Instance.getSeed() != null)
         seed = WorldSettings.Instance.getSeed();
         NoiseGenerator.Init();
-        noiseSettings = WorldSettings.Instance.GetNoiseSettings();
-        noiseSettings.mapChunkSize = WorldSettings.Instance.GetWorldSize();
         mapChunkSize = noiseSettings.mapChunkSize;
         CreateIslandMask();
     }

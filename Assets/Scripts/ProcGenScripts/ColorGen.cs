@@ -6,7 +6,7 @@ public class ColorGen
 {
     ColorSettings settings;
     Texture2D texture;
-    const int textureRes = 100;
+    const int textureRes = 500;
     public void UpdateSettings(ColorSettings settings)
     {
         this.settings = settings;

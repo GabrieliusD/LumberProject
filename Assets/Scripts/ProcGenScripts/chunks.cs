@@ -7,6 +7,7 @@ public class chunks : MonoBehaviour
     public GameObject townHall;
     WorldSettings worldSettings;
     public GameObject enemyTownHall;
+    public LayerMask groundLayer;
     public const float distance = 600;
     Grid grid;
     spawnObject spawn;
@@ -19,7 +20,6 @@ public class chunks : MonoBehaviour
     Dictionary<Vector2,TerrainChunk> terrainChunkDictionary = new Dictionary<Vector2, TerrainChunk>();
     List<TerrainChunk> terrainChunksVisible = new List<TerrainChunk>();
 
-    int num = 0;
     void Start() {
         worldSettings = WorldSettings.Instance;
         grid = FindObjectOfType<Grid>();
@@ -49,7 +49,7 @@ public class chunks : MonoBehaviour
             for (int xOffset = 0; xOffset < 3; xOffset++)
             {
                 Vector2 viewedChunkCoord = new Vector2(xOffset, -yOffset);
-                terrainChunkDictionary.Add(viewedChunkCoord, new TerrainChunk(viewedChunkCoord, chunkSize, transform, gameObject.layer));
+                terrainChunkDictionary.Add(viewedChunkCoord, new TerrainChunk(viewedChunkCoord, chunkSize, transform, groundLayer));
                 
 
             }
@@ -73,20 +73,9 @@ public class chunks : MonoBehaviour
     }
     void UpdateVisibleChunks()
     {
-        bool pathFound = false;
         float maxHeight = mapGen.noiseSettings.maxHeight;
-        WaterLevel.Instance.HasWater(WorldSettings.Instance.GetNoiseSettings().hasWater);
-        int numTerrainsCreated = 0;
-        while(!pathFound)
-        {
-            numTerrainsCreated++;
-            //if(Input.GetKey(KeyCode.Escape)) break;
-            createChunks();
-            if(!pathFound)
-                mapGen.seed+=1;
-        }
+        createChunks();
         spawn.spawnTrees(maxHeight);
-        Debug.Log("Terrins Created: " + numTerrainsCreated);
 
     }
 }
@@ -103,7 +92,8 @@ public class chunks : MonoBehaviour
             bounds = new Bounds(position, Vector2.one * size);
             Vector3 positionV3 = new Vector3(position.x, 0, position.y);
             meshObject = new GameObject("TerrainChunk");
-            meshObject.layer = layer;
+            Debug.Log(LayerMask.NameToLayer("Ground"));
+            meshObject.layer = LayerMask.NameToLayer("Ground");
             MeshRenderer = meshObject.AddComponent<MeshRenderer>();
             meshFilter = meshObject.AddComponent<MeshFilter>();
             meshObject.transform.position = positionV3;

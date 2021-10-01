@@ -13,35 +13,21 @@ MonoBehaviour:
   m_Name: NewWorldType
   m_EditorClassIdentifier: 
   terrainName: 
-  maxHeight: 5
+  maxHeight: 30
   seed: 1337
   mapChunkSize: 121
-  mapType: 0
+  mapType: 1
   hasWater: 1
   SettingsVariations:
   - noiseMode: 0
-    mapChunkSize: 121
     enabled: 1
     useLayerAsMask: 0
     InverseLayer: 0
     sampleBelow: 0
-    scale: 4.86
-    lacunarity: 1
-    octives: 5
-    strength: 7.06
-    minValue: 0.34
-    noiseType: 0
-    fractalType: 3
-  - noiseMode: 1
-    mapChunkSize: 121
-    enabled: 1
-    useLayerAsMask: 1
-    InverseLayer: 1
-    sampleBelow: 0.39
-    scale: 1.22
-    lacunarity: 1.33
-    octives: 5
-    strength: 11.88
-    minValue: 2.93
+    scale: 1.58
+    lacunarity: 0.43
+    octives: 8
+    strength: 17.66
+    minValue: 0
     noiseType: 0
     fractalType: 1

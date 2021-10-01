@@ -41,4 +41,4 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 8
     m_NumAlphaKeys: 2
-  terrainMaterial: {fileID: 2100000, guid: ba06ab6b944d08040a9a6c6bb3cb8843, type: 2}
+  terrainMaterial: {fileID: 2100000, guid: dd6a4dfdbcd2c1b42bc8bb036f1e255b, type: 2}
