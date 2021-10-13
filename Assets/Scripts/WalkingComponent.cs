@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class WalkingComponent : MonoBehaviour
 {
@@ -17,12 +18,15 @@ public class WalkingComponent : MonoBehaviour
     CharacterController characterController;
     CameraController cameraController;
     Vector3 characterLookDir;
+
+    InputManager inputManager;
     // Start is called before the first frame update
     void Start()
     {
         RigBody = GetComponent<Rigidbody>();
         characterController = GetComponent<CharacterController>();
         cameraController = GetComponent<CameraController>();
+        inputManager = GetComponent<InputManager>();
     }
 
     
@@ -32,7 +36,9 @@ public class WalkingComponent : MonoBehaviour
     {
         CheckIfGrounded();
         //Debug.Log(isGrounded);
+
         WalkDirection();
+
         if(isGrounded && GravityForce.y < 0)
         {
             
@@ -44,17 +50,13 @@ public class WalkingComponent : MonoBehaviour
 
     void WalkDirection()
     {
+        Debug.Log("Moving");
+        Vector2 direction = inputManager.GetMoveValue();
         Vector3 cameraForwardDir = cameraController.GetCamera().transform.forward;
         Vector3 cameraRightDir = cameraController.GetCamera().transform.right;
         Vector3 moveDir = Vector3.zero;
-        if(Input.GetKey(KeyCode.W))
-            moveDir += cameraForwardDir * WalkingSpeed * Time.deltaTime;
-        if (Input.GetKey(KeyCode.S))
-            moveDir += cameraForwardDir * -WalkingSpeed * Time.deltaTime;
-        if (Input.GetKey(KeyCode.A))
-            moveDir += cameraRightDir * -WalkingSpeed * Time.deltaTime;
-        if (Input.GetKey(KeyCode.D))
-            moveDir += cameraRightDir * WalkingSpeed * Time.deltaTime;
+            moveDir += cameraForwardDir * WalkingSpeed * Time.deltaTime * direction.y;
+            moveDir += cameraRightDir * WalkingSpeed * Time.deltaTime * direction.x;
         if(moveDir != Vector3.zero)
         {
             transform.rotation = Quaternion.LookRotation(moveDir.normalized);
