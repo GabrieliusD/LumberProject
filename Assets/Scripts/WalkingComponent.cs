@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 
 public class WalkingComponent : MonoBehaviour
 {
+    [SerializeField]
+    Transform sphereCastPosition;
     public LayerMask layer;
     public float WalkingSpeed;
     public float Gravity = -9.81f;
@@ -18,15 +20,20 @@ public class WalkingComponent : MonoBehaviour
     CharacterController characterController;
     CameraController cameraController;
     Vector3 characterLookDir;
+    int lumberAnimation;
+    Animator animator;
 
-    InputManager inputManager;
+    InputManager inputManager;  
     // Start is called before the first frame update
     void Start()
     {
         RigBody = GetComponent<Rigidbody>();
         characterController = GetComponent<CharacterController>();
         cameraController = GetComponent<CameraController>();
-        inputManager = GetComponent<InputManager>();
+        inputManager = InputManager.Instance;
+        
+        animator = GetComponent<Animator>();
+        lumberAnimation = Animator.StringToHash("Lumbering");
     }
 
     
@@ -44,13 +51,24 @@ public class WalkingComponent : MonoBehaviour
             
             GravityForce.y = -2f;
         }
-
+        if(inputManager.PressedInteract())
+        {
+            animator.CrossFade(lumberAnimation, 0.15f);
+            
+            Collider[] colliders = Physics.OverlapSphere(sphereCastPosition.position,2f);
+            foreach (Collider hit in colliders)
+            {
+                if(hit.tag == "Resource")
+                {
+                    Debug.Log(hit.name);
+                }
+            }
+        }
         ApplyGravity();
     }
 
     void WalkDirection()
     {
-        Debug.Log("Moving");
         Vector2 direction = inputManager.GetMoveValue();
         Vector3 cameraForwardDir = cameraController.GetCamera().transform.forward;
         Vector3 cameraRightDir = cameraController.GetCamera().transform.right;

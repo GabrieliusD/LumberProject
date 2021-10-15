@@ -9,9 +9,11 @@ public class CameraController : MonoBehaviour
     public Vector3 CameraLookPosition;
     public Vector3 Rotation;
     Camera mainCamera;
+    InputManager inputManager;
     void Start()
     {
         mainCamera = Camera.main;
+        inputManager = InputManager.Instance;
         //mainCamera.transform.position = transform.position + CameraPosition;
     }
 
@@ -28,6 +30,20 @@ public class CameraController : MonoBehaviour
 
         Vector3 pivot = transform.position;
 
+        Vector2 touchDelta = inputManager.PrimaryGetDelta();
+        float tempX = touchDelta.x;
+        touchDelta.x = touchDelta.y;
+        touchDelta.y = tempX;
+        Vector3 dir = newCameraPosition - pivot;
+        dir = Quaternion.Euler(Rotation * touchDelta) * dir;
+        newCameraPosition = dir + pivot;
+        CameraPosition = newCameraPosition - transform.position;
+
+
+        dir = currentCameraLookPos - pivot;
+        dir = Quaternion.Euler(Rotation * touchDelta) * dir;
+        currentCameraLookPos = dir + pivot;
+        CameraLookPosition = currentCameraLookPos - transform.position;
 
         // if (Input.GetKey(KeyCode.E))
         // {
