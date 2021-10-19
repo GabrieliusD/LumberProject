@@ -12,6 +12,7 @@ public class WalkingComponent : MonoBehaviour
     public float Gravity = -9.81f;
 
     public float groundedDistance = 0.4f;
+    public float axeHitRadius = 0.1f;
     public Transform legs;
 
     bool isGrounded;
@@ -55,16 +56,22 @@ public class WalkingComponent : MonoBehaviour
         {
             animator.CrossFade(lumberAnimation, 0.15f);
             
-            Collider[] colliders = Physics.OverlapSphere(sphereCastPosition.position,2f);
-            foreach (Collider hit in colliders)
-            {
-                if(hit.tag == "Resource")
-                {
-                    Debug.Log(hit.name);
-                }
-            }
+
         }
         ApplyGravity();
+    }
+
+    public void OnFinishHit()
+    {
+        Debug.Log("Finished Lumbering Animation");
+        Collider[] colliders = Physics.OverlapSphere(sphereCastPosition.position, axeHitRadius);
+        foreach (Collider hit in colliders)
+        {
+            if (hit.tag == "Resource")
+            {
+                Debug.Log(hit.name);
+            }
+        }
     }
 
     void WalkDirection()
